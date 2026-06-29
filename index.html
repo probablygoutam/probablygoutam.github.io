@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Goutam Das</title>
+<meta name="description" content="Goutam Das — Security Software Engineer at Samsung. Interested in systems, security, maths, probability, and puzzles. From Balasore, Odisha.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ════════════════════════════════════════════════════════════════
+     THEME — edit these to recolour the whole site.
+     Everything below uses these variables, so changing a value here
+     updates the entire page. Try swapping --accent / --accent-2.
+     ──────────────────────────────────────────────────────────────── */
+  :root{
+    /* — Background & surface tones (dark to light) — */
+    --bg:#0f1115;          /* page background        */
+    --bg-soft:#161922;     /* faint raised panels    */
+    --panel:#1b1f2a;       /* cards / boxes          */
+    --line:#2a3040;        /* borders & dividers     */
+
+    /* — Text tones (bright to dim) — */
+    --text:#eceef3;        /* headings / strong text */
+    --muted:#9aa3b5;       /* body text              */
+    --dim:#646e83;         /* captions / meta        */
+
+    /* — Accent 1 (warm — currently amber/orange) — */
+    --accent:#e8a04a;
+    --accent-glow:rgba(232,160,74,0.12);   /* soft fill behind chips/buttons */
+    --accent-soft:rgba(232,160,74,0.30);   /* subtle borders / inner glow    */
+
+    /* — Accent 2 (cool — currently teal/blue) — */
+    --accent-2:#5ec9d4;
+    --accent-2-glow:var(--accent-2-glow);
+    --accent-2-soft:rgba(94,201,212,0.40);
+
+    /* — Translucent nav background (match your --bg in rgb) — */
+    --nav-bg:rgba(15,17,21,0.72);
+
+    --maxw:960px;
+  }
+
+  /* ── A couple of ready-made palettes you can paste over the two
+        accent blocks above if you want a different vibe ──────────────
+     ① Blue + gold:    --accent:#f2c14e;  --accent-2:#5b8def;
+     ② Teal + coral:   --accent:#ff7a59;  --accent-2:#3ec9b0;
+     ③ Purple + lime:  --accent:#b388ff;  --accent-2:#9ad14b;
+     ④ Crimson + sky:  --accent:#ff5d6c;  --accent-2:#56c2e6;
+     (remember to also update the matching rgba() glow/soft lines)      */
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--accent);color:var(--bg)}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px;position:relative;z-index:1}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:72px 72px;opacity:0.04}
+
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);background:var(--nav-bg);border-bottom:1px solid var(--line)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:0.3px}
+  .brand .dot{color:var(--accent)}
+  .nav-links{display:flex;gap:24px;font-size:0.9rem;font-weight:500}
+  .nav-links a{color:var(--muted);transition:color .2s}
+  .nav-links a:hover{color:var(--accent)}
+  .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:1.4rem;cursor:pointer}
+
+  header.hero{padding:92px 0 70px}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent-2);letter-spacing:2px;text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent-2)}
+  .hero h1{font-family:'Fraunces',serif;font-size:clamp(3rem,8vw,5.2rem);font-weight:600;line-height:1;letter-spacing:-1px;margin-bottom:24px}
+  .hero h1 .you{font-style:italic;color:var(--accent)}
+  .hero-row{display:flex;align-items:center;gap:46px}
+  .hero-copy{flex:1;min-width:0}
+  .hero-photo{flex:0 0 auto;width:240px;height:240px;border-radius:20px;overflow:hidden;position:relative;
+    border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-photo .photo-fallback{display:none;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--dim)}
+  .hero-photo.empty .photo-fallback{display:block}
+  .hero-photo::after{content:"";position:absolute;inset:0;border-radius:20px;box-shadow:inset 0 0 0 1px var(--accent-soft);pointer-events:none}
+  .hero-sub{font-size:clamp(1.05rem,2.2vw,1.25rem);color:var(--muted);max-width:600px;margin-bottom:32px}
+  .hero-sub strong{color:var(--text);font-weight:600}
+  .cta-row{display:flex;gap:13px;flex-wrap:wrap}
+  .btn{font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:500;padding:12px 20px;border-radius:8px;transition:all .2s;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .btn-primary{background:var(--accent);color:var(--bg);font-weight:600}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px var(--accent-glow)}
+  .btn-ghost{border:1px solid var(--line);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+  .status{margin-top:42px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--dim);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 8px var(--accent-2);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+  section{padding:60px 0}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px}
+  .sec-num{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.85rem}
+  .sec-title{font-family:'Fraunces',serif;font-size:clamp(1.6rem,4vw,2.2rem);font-weight:600;letter-spacing:-0.3px}
+  .sec-line{flex:1;height:1px;background:var(--line)}
+
+  .about-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:46px;align-items:start}
+  .about-text p{color:var(--muted);margin-bottom:16px;font-size:1.03rem}
+  .about-text strong{color:var(--text);font-weight:600}
+  .about-text em{color:var(--accent);font-style:italic}
+
+  /* ───── Trainer / Pokémon-style card ───── */
+  .pcard{
+    background:linear-gradient(160deg,var(--panel),var(--bg-soft));
+    border:2px solid var(--accent);border-radius:16px;padding:14px;height:fit-content;
+    box-shadow:0 0 0 1px var(--accent-soft), 0 14px 34px rgba(0,0,0,0.4);
+    position:sticky;top:84px;
+  }
+  .pcard-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+  .pcard-name{font-family:'Fraunces',serif;font-weight:700;font-size:1.2rem}
+  .pcard-hp{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted)}
+  .pcard-hp b{color:var(--accent);font-size:0.95rem}
+  .pcard-trait{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);margin-bottom:10px}
+  .pcard-trait b{color:var(--accent-2)}
+  .pcard-trait .trait-note{color:var(--dim)}
+  .pcard-art{
+    position:relative;border-radius:11px;height:140px;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 38%,var(--accent-glow),transparent 70%),repeating-linear-gradient(45deg,var(--bg) 0 9px,var(--bg-soft) 9px 18px);
+    border:1px solid var(--line);overflow:hidden;margin-bottom:10px;
+  }
+  .pcard-art-emoji{display:none;font-size:3.6rem;filter:drop-shadow(0 4px 10px rgba(0,0,0,.5))}
+  .pcard-art.noimg .pcard-art-emoji{display:block}
+  .pcard-art img{width:100%;height:100%;object-fit:cover;display:block}
+  .pcard-stage{position:absolute;bottom:6px;left:0;right:0;text-align:center;
+    font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--dim);letter-spacing:0.3px;
+    background:linear-gradient(transparent,rgba(0,0,0,.45));padding-top:10px}
+  .pcard-type{display:flex;gap:6px;margin-bottom:11px}
+  .ptype{font-family:'JetBrains Mono',monospace;font-size:0.66rem;padding:3px 8px;border-radius:20px;border:1px solid var(--line)}
+  .ptype.sec{color:var(--accent);border-color:var(--accent-soft);background:var(--accent-glow)}
+  .ptype.cs{color:var(--accent-2);border-color:var(--accent-2-soft);background:var(--accent-2-glow)}
+  .ptype.math{color:#d7c2ff;border-color:rgba(179,136,255,.4);background:rgba(179,136,255,.10)}
+  .ptype.act{color:#7fd99a;border-color:rgba(94,201,138,.4);background:rgba(94,201,138,.10)}
+  .pcard-moves{display:flex;flex-direction:column;gap:10px}
+  .move{border-top:1px solid var(--line);padding-top:9px}
+  .move:first-child{border-top:none;padding-top:0}
+  .move-head{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+  .move-name{font-weight:600;font-size:0.9rem;color:var(--text)}
+  .energy{font-size:0.72rem;line-height:1}
+  .energy.sec{color:var(--accent)}
+  .energy.cs{color:var(--accent-2)}
+  .energy.math{color:#b388ff}
+  .energy.act{color:#5ec98a}
+  .move-desc{font-size:0.78rem;color:var(--muted);line-height:1.45;margin-bottom:6px}
+  .gauge{height:5px;border-radius:4px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+  .gauge span{display:block;height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:4px}
+
+  .xp{border-left:2px solid var(--line);padding-left:26px;margin-left:5px}
+  .xp-item{margin-bottom:36px;position:relative}
+  .xp-item::before{content:"";position:absolute;left:-34px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--accent-2)}
+  .xp-item.intern::before{border-color:var(--muted)}
+  .xp-top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:3px}
+  .xp-role{font-family:'Fraunces',serif;font-size:1.22rem;font-weight:600}
+  .xp-date{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent-2)}
+  .xp-org{color:var(--muted);font-size:0.92rem;margin-bottom:13px}
+  .task{margin-bottom:13px}
+  .task-name{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--text);font-weight:500;margin-bottom:4px}
+  .task-name::before{content:"▷ ";color:var(--accent-2)}
+  .task p{color:var(--muted);font-size:0.92rem;padding-left:16px;border-left:1px solid var(--line)}
+
+
+  .int-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .int{background:var(--bg-soft);border:1px solid var(--line);border-radius:14px;padding:22px;transition:all .22s}
+  .int:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .int .ic{font-size:1.6rem;margin-bottom:10px;display:block}
+  .int h4{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;margin-bottom:6px}
+  .int p{color:var(--muted);font-size:0.9rem}
+
+  .topics{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:30px}
+  .topics p.lead{font-size:1.05rem;color:var(--muted);margin-bottom:20px}
+  .topics p.lead strong{color:var(--text)}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:0.8rem;padding:6px 13px;border-radius:7px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+  .chip.hot{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
+  .chip.cool{border-color:var(--accent-2);color:var(--accent-2)}
+
+  .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .proj{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;transition:all .22s;position:relative;overflow:hidden}
+  .proj::after{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--accent-2);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+  .proj:hover{border-color:var(--accent-2);transform:translateY(-3px)}
+  .proj:hover::after{transform:scaleX(1)}
+  .proj-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px}
+  .proj-name{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;line-height:1.25}
+  .proj-date{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--dim);white-space:nowrap;padding-top:3px}
+  .proj p{color:var(--muted);font-size:0.88rem;margin-bottom:12px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--accent-2);background:var(--accent-2-glow);border:1px solid var(--accent-2-soft);padding:3px 8px;border-radius:5px}
+
+  .skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+  .skill-cat{background:var(--bg-soft);border:1px solid var(--line);border-radius:14px;padding:18px}
+  .skill-cat h4{font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--accent-2);text-transform:uppercase;letter-spacing:1px;margin-bottom:11px}
+  .skill-cat .items{display:flex;flex-wrap:wrap;gap:6px}
+  .skill-cat .items span{font-size:0.8rem;color:var(--muted);background:var(--panel);border:1px solid var(--line);padding:4px 9px;border-radius:6px}
+
+
+  .contact{text-align:center;padding:80px 0}
+  .contact h2{font-family:'Fraunces',serif;font-size:clamp(2.2rem,5vw,3.2rem);font-weight:600;letter-spacing:-0.5px;margin-bottom:14px}
+  .contact h2 em{font-style:italic;color:var(--accent)}
+  .contact p{color:var(--muted);max-width:430px;margin:0 auto 28px}
+  .contact-links{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+
+  footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--dim)}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:740px){
+    .nav-links{display:none;position:absolute;top:62px;left:0;right:0;flex-direction:column;background:var(--bg-soft);border-bottom:1px solid var(--line);padding:18px 26px;gap:16px}
+    .nav-links.open{display:flex}
+    .nav-toggle{display:block}
+    .about-grid{grid-template-columns:1fr;gap:26px}
+    .pcard{position:static;top:auto}
+    .hero-row{flex-direction:column;align-items:flex-start;gap:24px}
+    .hero-photo{width:130px;height:130px}
+    .int-grid{grid-template-columns:1fr 1fr}
+    .proj-grid{grid-template-columns:1fr}
+    section{padding:46px 0}
+    header.hero{padding:60px 0 46px}
+  }
+  @media(max-width:460px){.int-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="brand">Goutam Das</div>
+    <div class="nav-links" id="navlinks">
+      <a href="#about">about</a>
+      <a href="#work">work</a>
+      <a href="#interests">interests</a>
+      <a href="#thinking">topics</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+    </div>
+    <button class="nav-toggle" id="navtoggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Security Software Engineer · Samsung</div>
+    <div class="hero-row">
+      <div class="hero-copy">
+        <h1>Hi, I'm <span class="you">Goutam</span></h1>
+        <p class="hero-sub">A security software engineer at <strong>Samsung Electronics</strong> in South Korea — but also someone who loves <strong>maths and probability</strong>, gets lost in <strong>puzzles and chess</strong>, and paints, writes, and cooks when the laptop closes.</p>
+        <div class="cta-row">
+          <a href="#contact" class="btn btn-primary">Say hello →</a>
+          <a href="resume.pdf" class="btn btn-ghost" target="_blank">⤓ Résumé (PDF)</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <!-- Replace the src below with your photo, e.g. src="me.jpg". Keep it roughly square. -->
+        <img src="me.jpg" alt="Goutam Das" onerror="this.style.display='none';this.parentNode.classList.add('empty')">
+        <span class="photo-fallback">Your photo</span>
+      </div>
+    </div>
+    <div class="status">
+      <span class="pulse"></span> Suwon, South Korea
+      <span style="color:var(--line)">|</span> B.Tech CSE, IIT Kanpur
+      <span style="color:var(--line)">|</span> originally from Balasore, Odisha
+    </div>
+  </div>
+</header>
+
+<section id="about" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">About me</span><span class="sec-line"></span></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I grew up in <strong>Balasore, Odisha</strong>, and what pulled me into computer science was the same thing that's always pulled me in: <em>patterns, numbers, and good puzzles</em>. Probability and competitive maths were my first love, and a lot of what I enjoy now — algorithms, chess, a clean line of reasoning — grows out of that.</p>
+        <p>Today I'm a security software engineer at <strong>Samsung Electronics</strong> in South Korea, working in confidential computing: operating-system hardening, trusted execution environments, and remote attestation. Underneath that I care about the fundamentals — the Linux kernel, compilers, concurrency, and the algorithms that hold it all together.</p>
+        <p>I studied Computer Science at <strong>IIT Kanpur</strong>, where my projects ranged from a Python-to-x86 compiler to kernel internals and randomized algorithms. That mix — low-level systems plus a strong theory backbone — is exactly the space I like working in.</p>
+        <p>Beyond work I stay curious — I follow competitive programming closely and have been picking up some machine learning on the side. Away from the desk you'll find me at a chessboard, on a badminton court, watching football, painting, writing, cooking, or deep in an anime.</p>
+      </div>
+      <div class="pcard">
+        <div class="pcard-top">
+          <span class="pcard-name">Goutam Das</span>
+          <span class="pcard-hp">Lvl <b>22</b></span>
+        </div>
+        <div class="pcard-trait">Trait: <b>Lazy</b> · <b>Creative</b></div>
+        <div class="pcard-art">
+          <!-- UPLOAD YOUR PHOTO: put an image named card.jpg next to this file.
+               If it's missing, the 😎 placeholder shows instead. -->
+          <img src="card.jpg" alt="Goutam Das" onerror="this.style.display='none';this.parentNode.classList.add('noimg')">
+          <span class="pcard-art-emoji">😎</span>
+          <span class="pcard-stage">Security Software Engineer · Samsung</span>
+        </div>
+        <div class="pcard-type">
+          <span class="ptype math">◆ Maths</span>
+          <span class="ptype cs">◆ Systems</span>
+          <span class="ptype act">◆ Activity</span>
+        </div>
+        <div class="pcard-moves">
+          <div class="move">
+            <div class="move-head"><span class="energy math">◆</span><span class="move-name">Maths &amp; Puzzles</span></div>
+            <div class="move-desc">First love and secret weapon — probability, competitive maths, randomized algorithms, and chess.</div>
+            <div class="gauge" title="attention"><span style="width:90%"></span></div>
+          </div>
+          <div class="move">
+            <div class="move-head"><span class="energy cs">◆</span><span class="move-name">Systems &amp; Security</span></div>
+            <div class="move-desc">A bit of everything low-level — the Linux kernel, confidential computing, compilers, and concurrency.</div>
+            <div class="gauge" title="attention"><span style="width:80%"></span></div>
+          </div>
+          <div class="move">
+            <div class="move-head"><span class="energy act">◆</span><span class="move-name">Badminton &amp; Sport</span></div>
+            <div class="move-desc">My reset button — badminton on the court, football on the screen, and a painting now and then.</div>
+            <div class="gauge" title="attention"><span style="width:70%"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">What I'm working on</span><span class="sec-line"></span></div>
+    <div class="xp">
+      <div class="xp-item">
+        <div class="xp-top"><span class="xp-role">Security Software Engineer</span><span class="xp-date">Sep 2025 — Present</span></div>
+        <div class="xp-org">AI Platform Center · Security &amp; Privacy Team · Samsung Electronics R&amp;D Institute Korea</div>
+        <div class="task"><div class="task-name">vTPM-TD Security Review &amp; Hardening</div>
+          <p>High-level security review of vTPM-TD integration with the SPAC architecture — verified the attestation chain, identified an AK-chain binding vulnerability, investigated rollback risks, and now running a code-level hardening review (side-channel resistance, RNG seeding, attack-surface reduction, secure state handling, policy enforcement).</p></div>
+        <div class="task"><div class="task-name">Google Oak Session Attestation Prefetching</div>
+          <p>Customized the Oak Session attestation flow to demonstrate cached evidence injection via a custom prefetched-evidence provider; verified handshake, session binding, and encrypted exchange still complete, and that perfect forward secrecy appears preserved at the Noise layer.</p></div>
+        <div class="task"><div class="task-name">aTLS &amp; Cloud Integration Vulnerability Analysis</div>
+          <p>Reviewed attested-TLS and attestation-based session establishment for Samsung's private AI cloud — trust boundaries, evidence validation, freshness and binding assumptions, plus a review of the bastion host image in the integration path.</p></div>
+        <div class="task"><div class="task-name">VigiloOS Kernel, Policy &amp; Platform Hardening</div>
+          <p>Hardening VigiloOS, a hardened OS for confidential VMs in Samsung's private cloud — KSPP-based kernel hardening and Kconfig tuning, TDX/PCI/ACPI device-policy logic for an allowlist exposure model, a dm-crypt ephemeral read-write filesystem, and self-test coverage for platform restrictions.</p></div>
+      </div>
+      <div class="xp-item intern">
+        <div class="xp-top"><span class="xp-role">Assistant Engineer — Research Intern</span><span class="xp-date">May 2024 — Jul 2024</span></div>
+        <div class="xp-org">Security &amp; Privacy Team · Samsung Research</div>
+        <div class="task"><div class="task-name">Spinlock Library with Deadlock Detection for islet</div>
+          <p>Built a Rust spinlock library research prototype for islet (a Linux Foundation confidential computing platform), adapting ideas from the GoodLock algorithm into a simplified deadlock detector with mutual-exclusion tracking, artificial deadlock-scenario generation, and developer-facing alerts.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="interests" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Away from the screen</span><span class="sec-line"></span></div>
+    <div class="int-grid">
+      <div class="int"><span class="ic">♟️</span><h4>Chess</h4><p>The original puzzle. I love the calculation, the patterns, and the quiet tension of a good game.</p></div>
+      <div class="int"><span class="ic">🏸</span><h4>Badminton</h4><p>My favourite way to actually move and clear my head — fast, tactical, and a great reset.</p></div>
+      <div class="int"><span class="ic">⚽</span><h4>Football &amp; sports</h4><p>I love watching football and following sport in general — the drama, the tactics, the big games.</p></div>
+      <div class="int"><span class="ic">🎨</span><h4>Painting</h4><p>A slower kind of problem-solving. Composition and colour scratch a different part of my brain.</p></div>
+      <div class="int"><span class="ic">✍️</span><h4>Creative writing</h4><p>I like putting ideas into words — it's where I think most clearly, away from code.</p></div>
+      <div class="int"><span class="ic">🍳</span><h4>Cooking</h4><p>Equal parts chemistry and improvisation. A recipe is just an algorithm you can eat.</p></div>
+      <div class="int"><span class="ic">🧩</span><h4>Puzzles &amp; numbers</h4><p>Probability, number puzzles, and competitive maths — the thing that started it all.</p></div>
+      <div class="int"><span class="ic">📚</span><h4>Reading</h4><p>Books, blogs, and the occasional paper — I like following ideas down a rabbit hole.</p></div>
+      <div class="int"><span class="ic">🍥</span><h4>Anime</h4><p>Great stories, great worlds — my go-to way to unwind after a long day.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="thinking" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Things I think about</span><span class="sec-line"></span></div>
+    <div class="topics">
+      <p class="lead">A rough map of what holds my attention — <strong>amber</strong> is where I spend real time, <strong>teal</strong> is what I'm curious about and exploring.</p>
+      <div class="chips">
+        <span class="chip hot">Probability &amp; combinatorics</span>
+        <span class="chip hot">Competitive programming</span>
+        <span class="chip hot">Algorithms &amp; theory</span>
+        <span class="chip hot">Systems &amp; OS internals</span>
+        <span class="chip hot">Security &amp; confidential computing</span>
+        <span class="chip hot">Compilers</span>
+        <span class="chip hot">Concurrency</span>
+        <span class="chip cool">Cryptography</span>
+        <span class="chip cool">Distributed systems</span>
+        <span class="chip cool">Hardware &amp; architecture</span>
+        <span class="chip">Machine learning</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Selected projects</span><span class="sec-line"></span></div>
+    <div class="proj-grid">
+      <div class="proj"><div class="proj-head"><span class="proj-name">Aerodrome: Online Data Race Analysis</span><span class="proj-date">2025</span></div>
+        <p>Linear-time data race detection via LLVM instrumentation capturing sync primitives, transactional boundaries, and shared-memory accesses across multicore execution.</p>
+        <div class="tags"><span class="tag">LLVM</span><span class="tag">C++</span><span class="tag">Concurrency</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">Blockchain Travel System</span><span class="proj-date">2025</span></div>
+        <p>End-to-end decentralized DApp on Hyperledger Fabric with Golang chaincodes, a React frontend with graph-based route finding, and certificate-based peer verification.</p>
+        <div class="tags"><span class="tag">Hyperledger</span><span class="tag">Go</span><span class="tag">React</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">Python → x86-64 Compiler</span><span class="proj-date">2024</span></div>
+        <p>A full compiler for a static Python subset: lexer, parser, and semantic analyzer in Flex/Bison generating x86-64 assembly, with strings, arrays, classes, and call conventions.</p>
+        <div class="tags"><span class="tag">Flex/Bison</span><span class="tag">x86-64</span><span class="tag">Compilers</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">Linux Fault-Around</span><span class="proj-date">2024</span></div>
+        <p>Implemented fault-around prefaulting for anonymous write faults in the Linux page-fault handler — a 45% reduction in sequential access time by avoiding redundant page-table walks.</p>
+        <div class="tags"><span class="tag">Linux Kernel</span><span class="tag">C</span><span class="tag">MM</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">Randomized Median Algorithms</span><span class="proj-date">2024</span></div>
+        <p>Two Monte Carlo algorithms computing exact median in 2 passes in O(n^⅔ log n) space, plus a 1-pass streaming variant in O(n^½ log n) space — probability put to work.</p>
+        <div class="tags"><span class="tag">Algorithms</span><span class="tag">Probability</span><span class="tag">Streaming</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">Memory System Calls</span><span class="proj-date">2023</span></div>
+        <p>POSIX-style mmap / munmap / mprotect with lazy virtual-memory allocation and a simplified copy-on-write fault handler, mirroring Linux kernel semantics.</p>
+        <div class="tags"><span class="tag">OS</span><span class="tag">C</span><span class="tag">Virtual Memory</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">CSE-BUBBLE: 32-bit Processor</span><span class="proj-date">2023</span></div>
+        <p>A single-cycle MIPS-32-style processor built from scratch in Verilog — full ALU, control units, instruction decode, and a control-signal FSM, verified by running bubble sort in machine code.</p>
+        <div class="tags"><span class="tag">Verilog</span><span class="tag">MIPS-32</span><span class="tag">Architecture</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">Crop Price Analysis &amp; Prediction</span><span class="proj-date">2024</span></div>
+        <p>Scraped government crop-price data and modelled it with PROPHET, ARIMA and SARIMAX (weather-augmented), using correlation analysis, seasonal decomposition, and clustering.</p>
+        <div class="tags"><span class="tag">Pandas</span><span class="tag">Time Series</span><span class="tag">Data Mining</span></div></div>
+      <div class="proj"><div class="proj-head"><span class="proj-name">EFX Allocations under Lexicographic Preferences</span><span class="proj-date">2024</span></div>
+        <p>Studied fair-division properties (EF, EFX, Pareto optimality, rank-maximality) and analysed rank-maximal EFX allocations, drawing a structural link to the 2-2-3 SAT problem.</p>
+        <div class="tags"><span class="tag">Game Theory</span><span class="tag">Algorithms</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">Toolkit</span><span class="sec-line"></span></div>
+    <div class="skill-grid">
+      <div class="skill-cat"><h4>Languages</h4><div class="items"><span>C</span><span>C++</span><span>Rust</span><span>Python</span><span>Golang</span><span>JavaScript</span><span>Verilog</span><span>MIPS Assembly</span><span>Bash</span></div></div>
+      <div class="skill-cat"><h4>Systems &amp; Security</h4><div class="items"><span>Linux Kernel</span><span>Confidential Computing</span><span>TDX</span><span>vTPM</span><span>TEE</span><span>Kernel Exploitation</span><span>Docker</span><span>Networking</span><span>Kali Linux</span></div></div>
+      <div class="skill-cat"><h4>Foundations</h4><div class="items"><span>Algorithms</span><span>Probability</span><span>Randomized Algorithms</span><span>Compilers</span><span>Concurrency</span><span>Operating Systems</span><span>Computer Architecture</span></div></div>
+      <div class="skill-cat"><h4>Tools</h4><div class="items"><span>LLVM</span><span>Intel PIN</span><span>Flex / Bison</span><span>Git</span><span>LaTeX</span><span>SQLite</span><span>Beautiful Soup</span></div></div>
+      <div class="skill-cat"><h4>Libraries</h4><div class="items"><span>PyTorch</span><span>OpenMP</span><span>MPI</span><span>CUDA</span><span>React</span><span>Pandas</span><span>NumPy</span><span>Matplotlib</span></div></div>
+      <div class="skill-cat"><h4>Blockchain</h4><div class="items"><span>Hyperledger Fabric</span><span>Ethereum</span></div></div>
+      <div class="skill-cat"><h4>Exploring</h4><div class="items"><span>Machine Learning</span><span>Cryptography</span><span>Distributed Systems</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact reveal">
+  <div class="wrap">
+    <h2>Let's <em>connect</em>.</h2>
+    <p>Always happy to talk systems, security, maths, or a good chess opening. Email is the easiest way to reach me.</p>
+    <div class="contact-links">
+      <a href="mailto:goutam03579maths@gmail.com" class="btn btn-primary">✉ Email me</a>
+      <a href="#" class="btn btn-ghost" id="github">GitHub</a>
+      <a href="#" class="btn btn-ghost" id="linkedin">LinkedIn</a>
+      <a href="resume.pdf" class="btn btn-ghost" target="_blank">⤓ Résumé</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">© <span id="yr"></span> Goutam Das · Balasore → Suwon · built by hand with HTML &amp; CSS</div></footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const tog=document.getElementById('navtoggle'),links=document.getElementById('navlinks');
+  tog.addEventListener('click',()=>links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>links.classList.remove('open')));
+  const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
